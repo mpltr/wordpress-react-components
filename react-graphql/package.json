@@ -17,5 +17,8 @@
   },
   "alias": {
     "temp": "c"
+  },
+  "devDependencies": {
+    "sass": "^1.30.0"
   }
 }
