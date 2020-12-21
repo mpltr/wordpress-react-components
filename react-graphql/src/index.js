@@ -1,28 +1,19 @@
-import React, {Suspense} from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react';
 
-// Possible components 
-const components = {
-    Article: React.lazy(() => import("./Article")),
-    Recipe: React.lazy(() => import("./Recipe"))
+const wrapper = document.querySelector("[data-react-page]")
+const page = wrapper ? wrapper.dataset.reactPage : null
+import regeneratorRuntime from "regenerator-runtime";
+
+if(page) {
+    const pages = {
+        home: import('./pages/home')
+    }
+    
+    async function renderPage(name) {
+        // Lazily load the requested page.
+        const page = await pages[name]
+        return page.default()
+    }
+    
+    renderPage(page);
 }
-
-// find all component wrappers and initialise
-const wrappers = document.querySelectorAll("[data-react]")
-wrappers.forEach(wrapper => {
-    const RequiredComponent = components[wrapper.dataset.react] 
-    if(!RequiredComponent) return; // Stop if no matching component
-
-    const props = wrapper.dataset.props ? JSON.parse(wrapper.dataset.props) : {}
-
-    const Component = (
-        <Suspense fallback={<div>Loading...</div>}>
-            <RequiredComponent {...props} />
-        </Suspense>
-    )
-
-    ReactDOM.render(
-        Component,
-        wrapper
-    )
-})

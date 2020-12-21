@@ -2,12 +2,15 @@
 
 get_header();
 
-$posts = get_posts(['fields' => 'ids']);
+$posts = get_posts(['fields' => 'ids']); ?>
 
-foreach($posts as $post_id): ?>
-    <div data-react="Article" data-props='<?= json_encode(['id' => $post_id]); ?>'></div>
-<? endforeach; 
+<div data-react-page="home">
+    <h1>We're putting posts here</h1>
+   <div data-react-component="articles"></div>
 
-get_footer();
+</div>
+
+
+<? get_footer();
 
 ?>
